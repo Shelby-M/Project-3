@@ -8,12 +8,14 @@ function Login(){
           <h1>Login</h1>
           <Form.Input
             label="Username"
+            icon="user"
             placeholder="Username.."
             name="username"
             type="text"
           />
           <Form.Input
             label="Password"
+            icon="lock"
             placeholder="Password.."
             name="password"
             type="password"
@@ -22,18 +24,17 @@ function Login(){
             Login
           </Button>
         </Form>
-        {/* {Object.keys(errors).length > 0 && (
-          <div className="ui error message">
-            <ul className="list">
-              {Object.values(errors).map((value) => (
-                <li key={value}>{value}</li>
-              ))}
-            </ul>
-          </div>
-        )} */}
       </div>
     );
 
 }
 
-export default Login;
+export default Login;  
+
+
+
+
+
+
+
+

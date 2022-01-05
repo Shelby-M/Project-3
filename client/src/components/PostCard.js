@@ -22,13 +22,26 @@ function PostCard(){
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <div className='ui two buttons'>
-          <Button basic color='green'>
-            Approve
-          </Button>
-          <Button basic color='red'>
-            Decline
-          </Button>
+      <div>
+    <Button 
+      color='red'
+      content='Like'
+      icon='heart'
+      label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+    />
+    <Button
+      basic
+      color='black'
+      content='Comment'
+      icon='comments'
+      label={{
+        as: 'a',
+        basic: true,
+        color: 'black',
+        pointing: 'left',
+        content: '2,048',
+      }}
+    />
         </div>
       </Card.Content>
     </Card>
@@ -46,14 +59,28 @@ function PostCard(){
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
-            </Button>
-            <Button basic color='red'>
-              Decline
-            </Button>
-          </div>
+        <div>
+    <Button 
+      color='red'
+      content='Like'
+      icon='heart'
+      label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+    />
+    <Button
+      basic
+      color='black'
+      content='Comment'
+      icon='comments'
+      label={{
+        as: 'a',
+        basic: true,
+        color: 'black',
+        pointing: 'left',
+        content: '2,048',
+      }}
+    />
+  </div>
+          
         </Card.Content>
       </Card>
       <Card>
@@ -70,13 +97,26 @@ function PostCard(){
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
-            </Button>
-            <Button basic color='red'>
-              Decline
-            </Button>
+        <div>
+    <Button 
+      color='red'
+      content='Like'
+      icon='heart'
+      label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+    />
+    <Button
+      basic
+      color='black'
+      content='Comment'
+      icon='comments'
+      label={{
+        as: 'a',
+        basic: true,
+        color: 'black',
+        pointing: 'left',
+        content: '2,048',
+      }}
+    />
           </div>
         </Card.Content>
         </Card>
