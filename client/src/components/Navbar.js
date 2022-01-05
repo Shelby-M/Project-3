@@ -13,6 +13,7 @@ function Navbar() {
     
     return (
     <Menu pointing secondary size="massive" color="purple">
+
     <Menu.Item
       name="home"
       active={activeItem === 'home'}
@@ -38,8 +39,7 @@ function Navbar() {
       />
     </Menu.Menu>
   </Menu>
-    )
-
+    );
 }
   
 
