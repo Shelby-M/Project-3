@@ -9,9 +9,10 @@ import './App.css';
 
 
 import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+// import Posts from './pages/Posts'
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-      
+          {/* <Route exact path='./posts/:postId' component={Posts} /> */}
         </Container>
       </Router>
 
