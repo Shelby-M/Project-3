@@ -5,13 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "apollo-server": "^3.6.1",
-<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
     "graphql": "^16.2.0",
     "jsonwebtoken": "^8.5.1",
-=======
-    "graphql": "^16.2.0",
->>>>>>> 8739e4e (server install)
     "mongoose": "^6.1.5"
   },
   "devDependencies": {},
