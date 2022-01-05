@@ -1,30 +1,47 @@
-// import React from 'react';
+import React, {useState} from 'react';
+import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 
-// function Navbar(props) {
-//   const tabs = ['Home', 'Login', 'Signup', 'Post'];
-//   return (
-//     <nav>
-//     <div>
-//     <ul>
-//       {tabs.map(tab => (
-//         <li className="nav-link" key={tab}>
-//           <a
-//             href={'#' + tab.toLowerCase()}
-      
-//             onClick={() => props.handlePageChange(tab)}
-//             className={
-//               props.currentPage === tab ? 'nav-link active' : 'nav-link'
-//             }
-//           >
-//             {tab}
-//           </a>
-//         </li>
-//       ))}
-//     </ul>
-//   </div>
-// </nav>
-//   );
-// }
+function Navbar() {
+    const pathname = window.location.pathname;
 
-// export default Navbar;
+    const path = pathname === '/' ? 'home' : pathname.substr(1);
+    const [activeItem, setActiveItem] = useState(path);
+  
+    const handleItemClick = (e, { name }) => setActiveItem(name);
+    
+    return (
+    <Menu pointing secondary size="massive" color="purple">
+    <Menu.Item
+      name="home"
+      active={activeItem === 'home'}
+      onClick={handleItemClick}
+      as={Link}
+      to="/"
+    />
+
+    <Menu.Menu position="right">
+      <Menu.Item
+        name="login"
+        active={activeItem === 'login'}
+        onClick={handleItemClick}
+        as={Link}
+        to="/login"
+      />
+      <Menu.Item
+        name="signup"
+        active={activeItem === 'signup'}
+        onClick={handleItemClick}
+        as={Link}
+        to="/signup"
+      />
+    </Menu.Menu>
+  </Menu>
+    )
+
+}
+  
+
+
+export default Navbar;
