@@ -1,45 +1,34 @@
 
 import React from 'react';
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 
-// import'semantic-ui-css/semantic.min.css';
+// import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
-// import Navbar from './Navbar';
-// import Home from './Home';
-// import Login from './Login';
-// import Signup from './Signup';
-// import Footer from './Footer';
-// import Post from './Post';
+
+
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+// import Posts from './pages/Posts'
 
 
 function App() {
   return (
-    <main className='App'>
-      <div>Hi!</div>
-      {/* <Router>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/post" component={Post} />
-        </Router> */}
-    {/* <Navbar /> */}
-   
-  </main>
+
+      <Router>
+        <Container>
+          <Navbar />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          {/* <Route exact path='./posts/:postId' component={Post} /> */}
+        </Container>
+      </Router>
+
   );
 }
 
 export default App;
-
-// export default function App() {
-//   return (
-//     <main>
-//       <Navbar />
-//       <About />
-//       <Home />
-//       <Footer />
-//       <Post />
-//     </main>
-//   );
-// }
-
