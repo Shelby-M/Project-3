@@ -27,6 +27,8 @@ function App() {
           {/* <Route exact path='./posts/:postId' component={Post} /> */}
         </Container>
       </Router>
+      
+      
 
   );
 }

@@ -1,38 +1,44 @@
-/* .App {
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200,200i,400,400i,600,700");
+@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+@import url("https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i");
+@import url("https://fonts.googleapis.com/css?family=Anonymous+Pro");
+
+body {
+  width: 100%;
+  height: 100%;
+
+  font-size: 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.75;
+   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+strong, b {
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+}
+
+em {
+  font-weight: 400;
+  font-style: italic;
+  font-family: 'Montserrat', sans-serif;
+}
+.ui.message
+{position: relative;
+  width: 100%;
+  background-image: url("http://pac-man.demondevin.modxcloud.com/assets/components/themantic/images/galaxy.jpg");
+  background-blend-mode: difference;
+  color: aliceblue;
+  background-color: black;
+  background-size: cover;
+  background-position: center center;
+  z-index: 1;
   text-align: center;
+  margin-top: 3em;
+  margin-bottom: 0em;
+  font-size: 2em;
+  
+  font-weight: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */

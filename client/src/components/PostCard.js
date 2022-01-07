@@ -31,13 +31,13 @@ function PostCard(){
     />
     <Button
       basic
-      color='black'
+      color='blue'
       content='Comment'
       icon='comments'
       label={{
         as: 'a',
         basic: true,
-        color: 'black',
+        color: 'blue',
         pointing: 'left',
         content: '2,048',
       }}
