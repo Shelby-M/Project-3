@@ -6,6 +6,7 @@ import PostForm from "../components/PostForm";
 
 function Home(){
     return (
+   
       <Grid columns={3}  style={{
     }}>
       <Grid.Row className="page-title">
@@ -18,7 +19,7 @@ function Home(){
           </Grid.Column>
         </Grid.Row>
         </Grid>
-    
+
     )
 
 }

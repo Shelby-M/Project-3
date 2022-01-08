@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 
 function Signup(){
@@ -9,14 +9,11 @@ function Signup(){
           <h1 className="ui purple center aligned header">Sign Up</h1>
           <Form.Input
             label="Username"
-            control={Input}
-            id='form-input-control-username'
             placeholder="Username.."
             icon="user"
             name="username"
             type="text" />
           <Form.Input
-           id='form-input-control-error-email'
             label="Email"
             placeholder="Email.."
             icon="mail"
