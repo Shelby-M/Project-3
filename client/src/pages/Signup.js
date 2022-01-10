@@ -1,12 +1,15 @@
 import React from "react";
-import { Button, Form } from 'semantic-ui-react';
+import {Button, Form, Grid, Header, Segment} from 'semantic-ui-react'
 
 
 function Signup(){
     return (
-        <div className="form-container">
-        <Form>
-          <h1 className="ui purple center aligned header">Sign Up</h1>
+      <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Header as='h2' color='purple' textAlign='center'>Sign Up </Header>
+
+           <Form size='large'>
+        <Segment stacked>
           <Form.Input
             label="Username"
             placeholder="Username.."
@@ -31,15 +34,17 @@ function Signup(){
             icon="lock"
             name="confirmPassword"
             type="password" />
-          <Button className=" ui fluid large secondary animated submit" tabindex="0">
-            <div class="visible content">Sign Up</div>
-            <div class="hidden content">
-              <i class="right arrow icon"></i>
+          <Button className=" ui fluid large secondary animated submit" ref={Signup} tabIndex="0">
+            <div className="visible content">Sign Up</div>
+            <div className="hidden content">
+              <i className="right arrow icon"></i>
             </div>
           </Button>
-     
+      </Segment>
         </Form>
-      </div>
+        </Grid.Column>
+  </Grid>
+
     )
     
 

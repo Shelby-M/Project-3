@@ -1,25 +1,27 @@
 import React from "react";
-import {Grid} from 'semantic-ui-react'
+import {Container, Grid} from 'semantic-ui-react'
 import PostCard from "../components/PostCard";
-// import PostForm from "../components/PostForm";
+import PostForm from "../components/PostForm";
 
 
 function Home(){
     return (
-   
-      <Grid columns={3}  style={{
+   <Container style={{ marginTop: '3em' }}>
+      <Grid.Column columns={3} TextAlign='center'  style={{ margin: '0', height: '100vh'
     }}>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
       </Grid.Row>
-      {/* <PostForm /> */}
-      <Grid.Row>
+      <Container style={{ marginTop: '3em' }}>
+      <PostForm />
+      </Container>
+      <Grid.Row style={{ marginTop: '5em' }}>
           <Grid.Column style={{ marginBottom: 20 }}>
             <PostCard />
           </Grid.Column>
         </Grid.Row>
-        </Grid>
-
+        </Grid.Column>
+</Container>
     )
 
 }

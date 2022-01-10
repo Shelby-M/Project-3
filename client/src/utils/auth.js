@@ -1,9 +1,10 @@
 import decode from 'jwt-decode';
 
 class AuthService {
-  getLogin() {
-    return decode(this.getToken());
-  }
+ // get user data
+ getProfile() {
+  return decode(this.getToken());
+}
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid
