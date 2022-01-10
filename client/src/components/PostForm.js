@@ -1,12 +1,15 @@
 import React from 'react';
-import { Button, Container, Form } from 'semantic-ui-react';
+import { Button, Grid, Header, Segment, Form } from 'semantic-ui-react';
 
 function PostForm() {
     return (
         <>
-        <Container style={{}}>
-          <Form>
-            <h2>Create a post:</h2>
+         <Grid textAlign='center' verticalAlign='middle'>
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Header as='h2' color='purple' textAlign='center'>Create a post! </Header>
+
+           <Form size='large'>
+        <Segment stacked>
             <Form.Field>
               <Form.Input
                 placeholder="Hi World!"
@@ -15,12 +18,17 @@ function PostForm() {
                 // value={values.body}
                 // error={error ? true : false}
               />
-              <Button type="submit" color="purple">
-                Submit
-              </Button>
-            </Form.Field>
-          </Form>
-        </Container>
+              </Form.Field>
+              <Button className=" ui fluid large secondary animated submit" tabIndex="0">
+          <div className="visible content">Post</div>
+          <div className="hidden content">
+    <i className="right arrow icon"></i>
+  </div>
+          </Button>
+        </Segment>
+      </Form>
+      </Grid.Column>
+      </Grid>
         </>
       );
     }

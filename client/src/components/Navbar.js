@@ -15,7 +15,7 @@ function Navbar() {
     <><Menu pointing secondary size="massive" inverted >
         <Container>
           <Menu.Item header>
-            <Image size='mini' src='https://toppng.com/uploads/preview/moon-phase-eclipse-cycle-astronomy-space-115699006229kgwl6dmcq.jpg'  style={{ marginRight: '1.5em' }} />
+            <Image size='mini' src='https://toppng.com/uploads/preview/moon-phase-eclipse-cycle-astronomy-space-115699006229kgwl6dmcq.jpg'  style={{  }} />
             Divine Talk </Menu.Item>
           <Menu.Item
             name="home"
