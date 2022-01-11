@@ -7,7 +7,7 @@ import PostForm from "../components/PostForm";
 function Home(){
     return (
    <Container style={{ marginTop: '3em' }}>
-      <Grid.Column columns={3} TextAlign='center'  style={{ margin: '0', height: '100vh'
+      <Grid.Column columns={3} textalign='center'  style={{ margin: '0', height: '100vh'
     }}>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>

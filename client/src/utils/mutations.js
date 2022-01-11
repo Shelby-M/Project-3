@@ -14,12 +14,33 @@ export const LOGIN_USER = gql`
 
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, username: $username, password: $password) {
+    addUser(username: $username, email: $email, password: $password) {
       token
       user {
         _id
         username
       }
+    }
+  }
+`;
+
+export const DELETE_POST = gql`
+mutation deletePost($postId: ID!){
+  deletePost(postId: $postId)
+}
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      id
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+      commentCount
     }
   }
 `;
