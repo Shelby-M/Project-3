@@ -11,6 +11,15 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
+  type Post{
+    id: ID!
+    body: String!
+    createdAt: String!
+    username: String!
+  }
+  type Query {
+    getPosts: [Post]
+  }
 
   type Query {
     me: User
