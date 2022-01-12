@@ -8,7 +8,7 @@ import {
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
-  import { setContext } from '@apollo/client/link/context';
+import { setContext } from '@apollo/client/link/context';
 // import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
@@ -18,7 +18,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-// import Posts from './pages/Posts'
+import Post from './pages/Post'
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -36,7 +36,34 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+  typePolicies: {
+    Query: {
+        fields: {
+            getPosts: {
+                merge(existing = [], incoming) {
+                    return incoming;
+                },
+            },
+        },
+    },
+    Post: {
+        fields: {
+            likes: {
+                merge(existing = [], incoming) {
+                    return incoming;
+                },
+            },
+            comments: {
+                merge(existing = [], incoming) {
+                    return incoming;
+                },
+            },
+        },
+    },
+},
+}),
+connectToDevTools: true,
 });
 
 function App() {
@@ -50,7 +77,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
-          {/* <Route exact path='./posts/:postId' component={Post} /> */}
+          <Route exact path='./post/:postId' component={Post} />
           </Switch>
         </div>
         {/* <Footer /> */}

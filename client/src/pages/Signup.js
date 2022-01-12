@@ -1,34 +1,42 @@
-
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
-import { Container, Form, Header, Grid, Button, Segment } from 'semantic-ui-react';
+import { Container, Form, Header, Grid, Button } from 'semantic-ui-react';
 
-function Signup(props) {
-  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
-  const [addUser] = useMutation(ADD_USER);
+const Signup = () => {
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [addUser ] = useMutation(ADD_USER);
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    const mutationResponse = await addUser({
-      variables: {
-        username: formState.username,
-        email: formState.email,
-        password: formState.password,
-      },
-    });
-    const token = mutationResponse.data.addUser.token;
-    Auth.login(token);
-  };
-
+  // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
+
     setFormState({
       ...formState,
       [name]: value,
     });
   };
+
+  // submit form
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await addUser({
+        variables: { ...formState },
+      });
+
+      Auth.login(data.addUser.token);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
 
   return (
     <Container>
@@ -36,7 +44,7 @@ function Signup(props) {
       <Grid.Column style={{ maxWidth: 450 }}>
       <Header as='h2' color='purple' textalign='center'>Signup</Header>
       <Form size="large" onSubmit={handleFormSubmit}>
-        <Segment stacked>
+        {/* <Segment stacked> */}
           <Form.Input
                 label="Username"
                 icon="user"
@@ -69,7 +77,7 @@ function Signup(props) {
     <i className="right arrow icon"></i>
   </div>
           </Button>
-          </Segment>
+          {/* </Segment> */}
           </Form>
           </Grid.Column>
           </Grid>
