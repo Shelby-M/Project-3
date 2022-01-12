@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
 const userSchema = new Schema(
   {
@@ -9,9 +9,9 @@ const userSchema = new Schema(
     createdAt: String,
   },
   {
-    toJSON: {
-      virtuals: true
-    }
+    // toJSON: {
+    //   virtuals: true
+    // }
   }
 );
 
@@ -30,8 +30,4 @@ const userSchema = new Schema(
 //   return bcrypt.compare(password, this.password);
 // };
 
-
-const User = model('User', userSchema);
-
-module.exports = User;
-
+module.exports = model('User', userSchema);

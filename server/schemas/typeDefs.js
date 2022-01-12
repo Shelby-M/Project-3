@@ -20,9 +20,9 @@ const typeDefs = gql`
   }
   type Comment{
     id: ID!
-    createdAt: String!
     username: String!
     body: String!
+    createdAt: String!
   }
   type Like {
     id: ID!
@@ -33,17 +33,16 @@ const typeDefs = gql`
     getPosts: [Post]
     getPost(postId: ID!): Post
   }
-  input addUser {
-    username: String!
-    email: String! 
-    password: String!
-  }
-    type newPost{
+  type Content {
     newPost: Post!
   }
+  type Auth {
+    token: ID!
+    user: User
+  }
     type Mutation {
-    Signup(addUser: addUser): User!
-    login(username: String!, password: String!): User!
+    signup(username: String!, email: String!, password: String!): Auth
+    login(username: String!, password: String!): Auth
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: String!, body: String!): Post!
