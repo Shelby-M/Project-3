@@ -10,7 +10,7 @@ import { SIGNUP_USER } from '../utils/mutations';
 
 function Signup(props) {
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({});
+  const [errors ] = useState({});
 const { onChange, onSubmit, values } = useForm(signup, {
   username: '',
   email: '',
@@ -22,9 +22,6 @@ const [addUser, { loading }] = useMutation(SIGNUP_USER, {
   update: (proxy, result) => {
       context.login(result.data.register);
       props.history.push('/login');
-  },
-  onError: err => {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors); 
   },
   variables: values, 
 });

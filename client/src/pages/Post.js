@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import signToken from '../utils/auth';
+import auth from '../utils/auth';
 import moment from 'moment';
 import {
     Button,
@@ -19,7 +19,7 @@ import {
 
 function Post(props) {
     const postId = props.match.params.postId;
-    const { user } = useContext(signToken);
+    const { user } = useContext(auth);
     const commentInputRef = useRef(null);
 
   
