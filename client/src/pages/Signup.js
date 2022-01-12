@@ -23,9 +23,6 @@ const [addUser, { loading }] = useMutation(SIGNUP_USER, {
       context.login(result.data.register);
       props.history.push('/login');
   },
-  onError: err => {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors); 
-  },
   variables: values, 
 });
 
