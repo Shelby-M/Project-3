@@ -6,9 +6,9 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  // createHttpLink,
+  createHttpLink,
 } from '@apollo/client';
-// import { setContext } from '@apollo/client/link/context';
+import { setContext } from '@apollo/client/link/context';
 // import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
@@ -21,22 +21,22 @@ import Signup from './pages/Signup';
 import Post from './pages/Post'
 import Footer from './components/Footer';
 
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:3000/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
 
-// const authLink = setContext((_, { headers }) => {
-//   const token = localStorage.getItem('id_token');
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : '',
-//     },
-//   };
-// });
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  // link: authLink.concat(httpLink),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache({
   typePolicies: {
     Query: {
