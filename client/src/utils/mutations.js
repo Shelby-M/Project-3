@@ -12,14 +12,14 @@ mutation login($username: String!, $password: String!) {
     }
 `;
 
-export const ADD_USER = gql`
-  mutation addUser(
+export const SIGNUP_USER = gql`
+  mutation signup(
         $username: String!
         $email: String!
         $password: String!
     ) {
-        addUser(
-            addUserInput: {
+        signup(
+            signupInput: {
                 username: $username
                 email: $email
                 password: $password

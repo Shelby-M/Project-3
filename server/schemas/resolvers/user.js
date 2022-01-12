@@ -1,46 +1,113 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { AuthenticationError } = require('apollo-server');
-const { signToken } = require('../utils/auth');
+const { UserInputError } = require('apollo-server');
 
-const { validateSignupInput,
-validateLoginInput,
-} = require('../../util/validation');
+const {
+  validateSignupInput,
+  validateLoginInput,
+
+} = require('../../utils/validators');
+const { SECRET_KEY } = require('../../config/connection');
 const User = require('../../models/User');
 
-module.exports = {
-    Query: {
-        getUsers: async () => {
-            try {
-                const users = await User.find();
-                return users;
-            } catch (err) {
-                throw new Error(err);
-            }
-        },
+function generateToken(user) {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      username: user.username
     },
-    Mutation: {
-        signUp: async (parent, args) => {
-            const user = await User.create(args);
-            const token = signToken(user);
-      
-            return { token, user };
-          },
-          login: async (parent, { username, password }) => {
-            const user = await User.findOne({ username });
-      
-            if (!user) {
-              throw new AuthenticationError('Incorrect credentials');
-            }
-      
-            const correctPw = await user.isCorrectPassword(password);
-      
-            if (!correctPw) {
-              throw new AuthenticationError('Incorrect credentials');
-            }
-      
-            const token = signToken(user);
-            return { token, user };
-          },
-        }
-    }
+    SECRET_KEY,
+    { expiresIn: '1h' }
+  );
+}
+
+module.exports = {
+  Query: {
+      getUsers: async () => {
+          try {
+              const users = await User.find();
+              return users;
+          } catch (err) {
+              throw new Error(err);
+          }
+      },
+  },
+  Mutation: {
+      login: async (parent, { username, password }, context, info) => {
+          const { errors, valid } = validateLoginInput(username, password);
+
+          if (!valid) throw new UserInputError('Errors', { errors });
+
+          const user = await User.findOne({ username });
+          if (!user)
+              throw new UserInputError('User not found', {
+                  errors: { general: 'User not found' },
+              });
+
+          const matchPassword = await bcrypt.compare(password, user.password);
+
+          if (!matchPassword)
+              throw new UserInputError('Wrong credentials', {
+                  errors: { general: 'Wrong credentials' },
+              });
+
+          const token = generateToken(user);
+
+          return {
+              ...user._doc,
+              id: user._id,
+              token,
+          };
+      },
+      signup: async (
+          parent,
+          { signupInput: { username, email, password } },
+          context,
+          info
+      ) => {
+          const { errors, valid } = validateSignupInput(
+              username,
+              email,
+              password
+          );
+
+          if (!valid) throw new UserInputError('Errors', { errors });
+
+          const userUsername = await User.findOne({ username });
+          const userEmail = await User.findOne({ email });
+
+          if (userUsername)
+              throw new UserInputError('Username is taken', {
+                  errors: {
+                      username: 'This username is taken',
+                  },
+              });
+          else if (userEmail)
+              throw new UserInputError('Email already in use', {
+                  errors: {
+                      email: 'There is already a user with this email',
+                  },
+              });
+
+          password = await bcrypt.hash(password, 12);
+
+          const newUser = new User({
+              username,
+              password,
+              email,
+              createdAt: new Date().toISOString(),
+          });
+
+          const res = await newUser.save();
+
+          const token = generateToken(res);
+
+          return {
+              ...res._doc,
+              id: res._id,
+              token,
+          };
+      },
+  },
+};

@@ -1,189 +1,91 @@
-import React, { useState } from 'react';
+import React, {  useState, useContext } from 'react';
+import { Button, Form, Segment, Container, Grid, Header } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
-import Auth from '../utils/auth';
-import { ADD_USER } from '../utils/mutations';
-import { Container, Form, Header, Grid, Button, Segment } from 'semantic-ui-react';
+// import Auth from '../utils/auth';
 
-const Signup = () => {
-  const [formState, setFormState] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
-  const [addUser ] = useMutation(ADD_USER);
+import { AuthContext } from '../context/auth';
+import { useForm } from '../utils/hooks';
+import { SIGNUP_USER } from '../utils/mutations';
 
-  // update state based on form input changes
-  const handleChange = (event) => {
-    const { name, value } = event.target;
 
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
+function Signup(props) {
+  const context = useContext(AuthContext);
+  const [errors, setErrors] = useState({});
+const { onChange, onSubmit, values } = useForm(signup, {
+  username: '',
+  email: '',
+  password: '',
+});
 
-  // submit form
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
 
-    try {
-      const { data } = await addUser({
-        variables: { ...formState },
-      });
+const [addUser, { loading }] = useMutation(SIGNUP_USER, {
+  update: (proxy, result) => {
+      context.login(result.data.register);
+      props.history.push('/login');
+  },
+  onError: err => {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors); 
+  },
+  variables: values, 
+});
 
-      Auth.login(data.addUser.token);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
+function signup() {
+  addUser();
+}
 
   return (
     <Container>
        <Grid textalign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
       <Header as='h2' color='purple' textalign='center'>Signup</Header>
-      <Form size="large" onSubmit={handleFormSubmit}>
         <Segment stacked>
-          <Form.Input
-                label="Username"
-                icon="user"
-                placeholder="Username.."
-                name="username"
-                type="text"
-            onChange={handleChange}
-          />
+      <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
         <Form.Input
-      className='field'
-           label="Email"
-            placeholder="Email.."
-            icon="mail"
-            name="email"
-            type="email" 
-            onChange={handleChange}
-          />
+          label="Username"
+          placeholder="Username.."
+          name="username"
+          type="text"
+          value={values.username}
+          error={errors.username ? true : false}
+          onChange={onChange}
+        />
         <Form.Input
-            className="field"
-            label="Password"
-            icon="lock"
-            placeholder="Password.."
-            name="password"
-            type="password"
-            onChange={handleChange}
-          />
-            <Button className=" ui fluid large secondary animated submit" tabIndex="0">
-          <div className="visible content">Sign Up</div>
-          <div className="hidden content">
-    <i className="right arrow icon"></i>
-  </div>
-          </Button>
-          </Segment>
-          </Form>
-          </Grid.Column>
-          </Grid>
+          label="Email"
+          placeholder="Email.."
+          name="email"
+          type="email"
+          value={values.email}
+          error={errors.email ? true : false}
+          onChange={onChange}
+        />
+        <Form.Input
+          label="Password"
+          placeholder="Password.."
+          name="password"
+          type="password"
+          value={values.password}
+          error={errors.password ? true : false}
+          onChange={onChange}
+        />
+        <Button type="submit" primary>
+          Sign Up
+        </Button>
+      </Form>
+      {Object.keys(errors).length > 0 && (
+        <div className="ui error message">
+          <ul className="list">
+            {Object.values(errors).map((value) => (
+              <li key={value}>{value}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      </Segment>
+    </Grid.Column>
+    </Grid>
     </Container>
   );
 }
 
+
 export default Signup;
-
-
-
-
-
-// import React, {useState} from "react";
-// import {Button, Form, Grid, Header, Segment} from 'semantic-ui-react';
-// import { useMutation } from '@apollo/client';
-// import {ADD_USER} from '../utils/mutations'
-// import Auth from '../utils/auth';
-
-
-// const Signup = () => {
-//   const [formState, setFormState] = useState({
-//     username: '',
-//     email: '',
-//     password: '',
-//   });
-//   const [addUser, { error }] = useMutation(ADD_USER);
-
-//   // update state based on form input changes
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-
-//     setFormState({
-//       ...formState,
-//       [name]: value,
-//     });
-//   };
-
-//   // submit form
-//   const handleFormSubmit = async (event) => {
-//     event.preventDefault();
-
-//     try {
-//       const { data } = await addUser({
-//         variables: { ...formState },
-//       });
-
-//       Auth.login(data.addUser.token);
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   };
-
-//     return (
-//       <Grid textalign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-//       <Grid.Column style={{ maxWidth: 450 }}>
-//         <Header as='h2' color='purple' textalign='center'>Sign Up </Header>
-
-//            <Form size='large' onSubmit={handleFormSubmit}>
-//         <Segment stacked>
-//           <Form.Input
-//             label="Username"
-//             placeholder="Username.."
-//             icon="user"
-//             name="username"
-//             type="text" 
-//             value={formState.username}
-//             onChange={handleChange}
-//             required
-//             />
-            
-//           <Form.Input
-//             label="Email"
-//             placeholder="Email.."
-//             icon="mail"
-//             name="email"
-//             type="email" 
-//             value={formState.email}
-//             onChange={handleChange}
-//             required
-//             />
-//           <Form.Input
-//             label="Password"
-//             placeholder="Password.."
-//             icon="lock"
-//             name="password"
-//             type="password" 
-//             value={formState.password}
-//             onChange={handleChange}
-//             required
-//             />
-//           <Button className=" ui fluid large secondary animated submit" ref={Signup} tabIndex="0">
-//             <div className="visible content">Sign Up</div>
-//             <div className="hidden content">
-//               <i className="right arrow icon"></i>
-//             </div>
-//           </Button>
-//       </Segment>
-//         </Form>
-//         {error && <div>Signup failed</div>}
-//         </Grid.Column>
-//   </Grid>
-
-//     )
-    
-
-// }
-
-// export default Signup;
