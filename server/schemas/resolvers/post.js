@@ -1,7 +1,7 @@
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
-const signToken = require('../../utils/Auth');
+const auth = require('../../utils/auth')
 
 module.exports = {
     Query: {
@@ -30,7 +30,7 @@ module.exports = {
     Mutation: {
         createPost: async (parent, { body }, context, info) => {
             try {
-                const user = signToken(context); 
+                const user = auth(context); 
 
                 if (body.trim() === '')
                     throw new Error('Post body must not be empty');
@@ -50,7 +50,7 @@ module.exports = {
         },
         deletePost: async (parent, { postId }, context, info) => {
             try {
-                const user = signToken(context);
+                const user = auth(context);
                 const post = await Post.findById(postId);
 
                 //if the user who logged in is not the user who created the post, he is not allowed to delete the post
@@ -64,7 +64,7 @@ module.exports = {
         },
         likePost: async (parent, { postId }, context, info) => {
             try {
-                const user = signToken(context);
+                const user = auth(context);
                 const post = await Post.findById(postId);
 
                 if (post) {
