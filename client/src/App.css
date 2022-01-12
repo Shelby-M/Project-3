@@ -57,3 +57,7 @@ em {
 .ui.header {
   color: aliceblue;
 }
+
+.error-text {
+  color: black;
+}
