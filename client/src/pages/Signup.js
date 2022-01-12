@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
-import { Container, Form, Header, Grid, Button } from 'semantic-ui-react';
+import { Container, Form, Header, Grid, Button, Segment } from 'semantic-ui-react';
 
 const Signup = () => {
   const [formState, setFormState] = useState({
@@ -44,7 +44,7 @@ const Signup = () => {
       <Grid.Column style={{ maxWidth: 450 }}>
       <Header as='h2' color='purple' textalign='center'>Signup</Header>
       <Form size="large" onSubmit={handleFormSubmit}>
-        {/* <Segment stacked> */}
+        <Segment stacked>
           <Form.Input
                 label="Username"
                 icon="user"
@@ -77,7 +77,7 @@ const Signup = () => {
     <i className="right arrow icon"></i>
   </div>
           </Button>
-          {/* </Segment> */}
+          </Segment>
           </Form>
           </Grid.Column>
           </Grid>

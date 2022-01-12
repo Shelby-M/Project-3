@@ -50,4 +50,10 @@ em {
   background-color: black 
 }
 
+.ui.footer.menu{
+  background-color: black;
+}
 
+.ui.header {
+  color: aliceblue;
+}
