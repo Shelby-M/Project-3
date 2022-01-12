@@ -1,4 +1,4 @@
-module.exports.validateSigninInput = (
+module.exports.validateSignupInput = (
     username,
     email,
     password,

@@ -1,26 +1,26 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { UserInputError } = require('apollo-server');
-
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+const { AuthenticationError } = require('apollo-server');
 const {
   validateSignupInput,
   validateLoginInput,
 
 } = require('../../utils/validators');
-const { SECRET_KEY } = require('../../config/connection');
+// const { SECRET_KEY } = require('../../config/connection');
 const User = require('../../models/User');
+const authMiddleware = require('../../utils/auth');
 
-function generateToken(user) {
-  return jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      username: user.username
-    },
-    SECRET_KEY,
-    { expiresIn: '1h' }
-  );
-}
+// function generateToken(user) {
+//   return jwt.sign(
+//     {
+//       id: user.id,
+//       email: user.email,
+//       username: user.username
+//     },
+//     SECRET_KEY,
+//     { expiresIn: '1h' }
+//   );
+// }
 
 module.exports = {
   Query: {
@@ -34,80 +34,52 @@ module.exports = {
       },
   },
   Mutation: {
-      login: async (parent, { username, password }, context, info) => {
-          const { errors, valid } = validateLoginInput(username, password);
+      login: async (parent, { username, password }) => {
+        const valid = validateLoginInput( username, password );
 
-          if (!valid) throw new UserInputError('Errors', { errors });
+          if (!valid) throw new AuthenticationError('Errors', { errors });
 
           const user = await User.findOne({ username });
           if (!user)
-              throw new UserInputError('User not found', {
+              throw new AuthenticationError('User not found', {
                   errors: { general: 'User not found' },
               });
 
           const matchPassword = await bcrypt.compare(password, user.password);
 
           if (!matchPassword)
-              throw new UserInputError('Wrong credentials', {
+              throw new AuthenticationError('Wrong credentials', {
                   errors: { general: 'Wrong credentials' },
               });
 
-          const token = generateToken(user);
-
-          return {
-              ...user._doc,
-              id: user._id,
-              token,
-          };
+              const token = auth(user);
+              return { token, user };
       },
-      signup: async (
-          parent,
-          { signupInput: { username, email, password } },
-          context,
-          info
-      ) => {
-          const { errors, valid } = validateSignupInput(
-              username,
-              email,
-              password
-          );
+      signup: async ( parent, { username, email, password }) => {
+          const user = validateSignupInput( username, email, password);
+          const token = signToken(user);
 
-          if (!valid) throw new UserInputError('Errors', { errors });
+          if (!user) throw new AuthenticationError('Errors', { errors });
 
           const userUsername = await User.findOne({ username });
           const userEmail = await User.findOne({ email });
 
           if (userUsername)
-              throw new UserInputError('Username is taken', {
+              throw new AuthenticationError('Username is taken', {
                   errors: {
                       username: 'This username is taken',
                   },
               });
           else if (userEmail)
-              throw new UserInputError('Email already in use', {
+              throw new AuthenticationError('Email already in use', {
                   errors: {
                       email: 'There is already a user with this email',
                   },
               });
 
           password = await bcrypt.hash(password, 12);
-
-          const newUser = new User({
-              username,
-              password,
-              email,
-              createdAt: new Date().toISOString(),
-          });
-
-          const res = await newUser.save();
-
-          const token = generateToken(res);
-
-          return {
-              ...res._doc,
-              id: res._id,
-              token,
-          };
+            
+          return { token, user };
       },
   },
 };

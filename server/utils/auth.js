@@ -1,34 +1,24 @@
 const jwt = require('jsonwebtoken');
+const { AuthenticationError } = require('apollo-server');
 
-const secret = 'mysecretsshhhhh';
-const expiration = '2h';
 
-module.exports = {
-  authMiddleware: function ({ req }) {
-    // allows token to be sent via req.body, req.query, or headers
-    let token = req.body.token || req.query.token || req.headers.authorization;
+module.exports = context => {
+  const authHeader = context.req.headers.authorization;
 
-    // ["Bearer", "<tokenvalue>"]
-    if (req.headers.authorization) {
-      token = token.split(' ').pop().trim();
-    }
+  if (authHeader) {
+      const token = authHeader.split('Bearer ')[1];
+      // 'Bearer 123abc' where 123abc. [1] is the value in position [1] of the array returned by the split method and assigned to the token variable
 
-    if (!token) {
-      return req;
-    }
+      if (token) {
+          try {
+              const user = jwt.verify(token, process.env.SECRET_KEY);
 
-    try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
-    } catch {
-      console.log('Invalid token');
-    }
-
-    return req;
-  },
-  signToken: function ({ username, email, _id }) {
-    const payload = { username, email, _id };
-
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
+              return user;
+          } catch (err) {
+              throw new AuthenticationError('Invalid/Expired token');
+          }
+      }
+      throw new Error("Authentication token must be 'Bearer [token]'");
+  }
+  throw new Error('Authorization header must be provided');
 };

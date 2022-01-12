@@ -10,7 +10,7 @@ import { SIGNUP_USER } from '../utils/mutations';
 
 function Signup(props) {
   const context = useContext(AuthContext);
-  const [errors, setErrors] = useState({});
+  const [errors ] = useState({});
 const { onChange, onSubmit, values } = useForm(signup, {
   username: '',
   email: '',
