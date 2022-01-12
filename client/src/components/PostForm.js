@@ -4,9 +4,9 @@ import { Button, Grid, Header, Segment, Form } from 'semantic-ui-react';
 function PostForm() {
     return (
         <>
-         <Grid textAlign='center' verticalAlign='middle'>
+         <Grid textalign='center' verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='purple' textAlign='center'>Create a post! </Header>
+        <Header as='h2' color='purple' textalign='center'>Create a post! </Header>
 
            <Form size='large'>
         <Segment stacked>

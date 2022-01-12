@@ -1,17 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
 
-import {Button, Form, Grid, Header, Segment} from 'semantic-ui-react'
+// import { Link } from 'react-router-dom';
+import { LOGIN_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
+
+import {Button, Form, Grid, Header, Segment, Container} from 'semantic-ui-react'
 
 
+const Login = (props) => {
+  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [login, { error }] = useMutation(LOGIN_USER);
 
+  // update state based on form input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-function Login(){
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // submit form
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await login({
+        variables: { ...formState },
+      });
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // clear form values
+    setFormState({
+      email: '',
+      password: '',
+    });
+  };
+
     return (
-      <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+      <Container >
+      <Grid textalign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h2' color='purple' textAlign='center'>Login </Header>
+        <Header as='h2' color='purple' textalign='center'>Login </Header>
 
-           <Form size='large'>
+           <Form size='large' onSubmit={handleFormSubmit}>
         <Segment stacked>
           <Form.Input
           className="field"
@@ -20,8 +58,8 @@ function Login(){
             placeholder="Username.."
             name="username"
             type="text"
-            // value={formState.username}
-            // onChange={handleChange}
+            value={formState.username}
+            onChange={handleChange}
           />
           <Form.Input
           className="field"
@@ -30,9 +68,14 @@ function Login(){
             placeholder="Password.."
             name="password"
             type="password"
-            // value={formState.password}
-            // onChange={handleChange}
+            value={formState.password}
+            onChange={handleChange}
           />
+           {error ? (
+          <div>
+            <p className="error-text">The provided credentials are incorrect</p>
+          </div>
+        ) : null}
            <Button className=" ui fluid large secondary animated submit" tabIndex="0">
           <div className="visible content">Login</div>
           <div className="hidden content">
@@ -47,8 +90,7 @@ function Login(){
       </Header>
     </Grid.Column>
   </Grid>
-      
- 
+</Container>
     );
 
     

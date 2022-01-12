@@ -1,26 +1,48 @@
-import React from "react";
-import {Container, Grid} from 'semantic-ui-react'
+import React from 'react';
+import {Container, Grid, Transition } from 'semantic-ui-react'
+import { useQuery } from '@apollo/client';
+import Auth from '../utils/auth';
 import PostCard from "../components/PostCard";
 import PostForm from "../components/PostForm";
-
+import { QUERY_POSTS } from '../utils/queries';
 
 function Home(){
+  const { data } = useQuery(QUERY_POSTS);
+  
+  const posts = data?.posts || [];
+
+  const loggedIn = Auth.loggedIn();
+
     return (
    <Container style={{ marginTop: '3em' }}>
-      <Grid.Column columns={3} TextAlign='center'  style={{ margin: '0', height: '100vh'
+      <Grid.Column columns={3} textalign='center'  style={{ margin: '0', height: '100vh'
     }}>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
       </Grid.Row>
       <Container style={{ marginTop: '3em' }}>
+        <Grid.Row>
+          { loggedIn && (
+            <Grid.Column>
       <PostForm />
+      </Grid.Column>
+          )}
+      </Grid.Row>
       </Container>
+
       <Grid.Row style={{ marginTop: '5em' }}>
-          <Grid.Column style={{ marginBottom: 20 }}>
-            <PostCard />
-          </Grid.Column>
+        <Transition.Group duration={500}>
+         {posts &&
+              posts.map(post => (
+                <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                  <PostCard post={post} />
+                </Grid.Column>
+              ))}
+
+          </Transition.Group>
+
         </Grid.Row>
-        </Grid.Column>
+        </Grid.Column>  
 </Container>
     )
 

@@ -17,7 +17,7 @@ function Navbar() {
           <Menu.Item header>
             <Image size='mini' src='https://toppng.com/uploads/preview/moon-phase-eclipse-cycle-astronomy-space-115699006229kgwl6dmcq.jpg'  style={{  }} />
             Divine Talk </Menu.Item>
-          <Menu.Item
+          <Menu.Item position='left'
             name="home"
             active={activeItem === 'home'}
             onClick={handleItemClick}
