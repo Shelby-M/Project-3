@@ -15,8 +15,8 @@ const typeDefs = gql`
     username: String!
     comments: [Comment]!
     likes: [Like]!
-    likeCount: Int!
-    commentCount: Int!
+    likesCount: Int!
+    commentsCount: Int!
   }
   type Comment{
     id: ID!
@@ -32,10 +32,16 @@ const typeDefs = gql`
   type Query {
     getPosts: [Post]
     getPost(postId: ID!): Post
+    getUsers: [User]
   }
   type Content {
     newPost: Post!
   }
+  input signupInput {
+        username: String!
+        email: String!
+        password: String!
+    }
   type Auth {
     token: ID!
     user: User
